@@ -1,0 +1,10 @@
+.DS_STORE
+.env
+node_modules
+npm-debug.log
+public/js/**
+public/style/**
+public/css/**
+public/lib/**
+public/manifest.json
+views/built/index.html
