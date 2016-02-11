@@ -60,6 +60,7 @@ module.exports = {
       , "co"
       , "shortid"
       , "react-router"
+      , "react-redux"
     ]
   }
 }
