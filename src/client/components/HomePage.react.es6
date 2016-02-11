@@ -7,7 +7,6 @@ const HomePage = React.createClass({
     return (
       <div className="home">
         <LoadedDrinkList></LoadedDrinkList>
-        Hello
       </div>
     )
   }

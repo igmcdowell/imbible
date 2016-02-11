@@ -3,7 +3,7 @@ import DrinkList from '../components/DrinkList.react.es6'
 
 const mapStateToProps = (state) => {
   return {
-    drinks: state.drinks
+    drinks: state.drinks.toList()
   }
 }
 

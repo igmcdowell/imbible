@@ -1,8 +1,9 @@
 import React, { PropTypes } from 'react'
+const Link = require('react-router').Link
 
-const DrinkListItem = ({ name, ingredients }) => (
+const DrinkListItem = ({ name, id }) => (
   <li>
-    {name}
+    <Link to={`/drinks/${id}`}>{name}</Link>
   </li>
 )
 

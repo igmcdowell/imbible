@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react'
 import DrinkListItem from './DrinkListItem.react.es6'
 
+
 const DrinkList = ({ drinks }) => (
   <ul>
     {drinks.map(drink =>
@@ -13,10 +14,7 @@ const DrinkList = ({ drinks }) => (
 )
 
 DrinkList.propTypes = {
-  drinks: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-  }).isRequired).isRequired,
+  drinks: PropTypes.object.isRequired,
 }
 
 export default DrinkList

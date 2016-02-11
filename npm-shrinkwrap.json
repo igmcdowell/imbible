@@ -897,9 +897,9 @@
       "resolved": "https://registry.npmjs.org/css-color-names/-/css-color-names-0.0.3.tgz"
     },
     "cssnano": {
-      "version": "3.5.0",
-      "from": "cssnano@>=3.5.0 <4.0.0",
-      "resolved": "https://registry.npmjs.org/cssnano/-/cssnano-3.5.0.tgz"
+      "version": "3.5.1",
+      "from": "cssnano@>=3.0.0 <4.0.0",
+      "resolved": "https://registry.npmjs.org/cssnano/-/cssnano-3.5.1.tgz"
     },
     "csso": {
       "version": "1.4.4",
@@ -2170,6 +2170,11 @@
         }
       }
     },
+    "gulp-cssnano": {
+      "version": "2.1.1",
+      "from": "gulp-cssnano@latest",
+      "resolved": "https://registry.npmjs.org/gulp-cssnano/-/gulp-cssnano-2.1.1.tgz"
+    },
     "gulp-filesize": {
       "version": "0.0.6",
       "from": "gulp-filesize@0.0.6",
@@ -2442,6 +2447,11 @@
       "version": "0.3.5",
       "from": "image-size@>=0.3.5 <0.4.0",
       "resolved": "https://registry.npmjs.org/image-size/-/image-size-0.3.5.tgz"
+    },
+    "immutable": {
+      "version": "3.7.6",
+      "from": "immutable@latest",
+      "resolved": "https://registry.npmjs.org/immutable/-/immutable-3.7.6.tgz"
     },
     "imurmurhash": {
       "version": "0.1.4",
@@ -3952,8 +3962,7 @@
       "dependencies": {
         "balanced-match": {
           "version": "0.1.0",
-          "from": "balanced-match@>=0.1.0 <0.2.0",
-          "resolved": "https://registry.npmjs.org/balanced-match/-/balanced-match-0.1.0.tgz"
+          "from": "balanced-match@>=0.1.0 <0.2.0"
         }
       }
     },
@@ -3965,6 +3974,18 @@
         "lodash": {
           "version": "4.3.0",
           "from": "lodash@>=4.2.1 <5.0.0"
+        }
+      }
+    },
+    "redux-devtools": {
+      "version": "3.1.1",
+      "from": "redux-devtools@latest",
+      "resolved": "https://registry.npmjs.org/redux-devtools/-/redux-devtools-3.1.1.tgz",
+      "dependencies": {
+        "lodash": {
+          "version": "4.3.0",
+          "from": "lodash@>=4.2.0 <5.0.0",
+          "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.3.0.tgz"
         }
       }
     },

@@ -61,6 +61,7 @@ module.exports = {
       , "shortid"
       , "react-router"
       , "react-redux"
+      , "immutable"
     ]
   }
 }
