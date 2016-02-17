@@ -53,14 +53,13 @@ module.exports = {
   , libs: {
     dest: dest
     , srcs: [
-      "reqwest"
-      , "lodash"
+      "redux"
       , "react"
+      , "react-dom"
       , "react-addons-pure-render-mixin"
-      , "co"
-      , "shortid"
       , "react-router"
       , "react-redux"
+      , "react-autosuggest"
       , "immutable"
     ]
   }
