@@ -1,6 +1,5 @@
-const React = require('react')
-const PropTypes = React.PropTypes
-const Autosuggest = require('react-autosuggest')
+import React, { PropTypes } from 'react'
+import Autosuggest from 'react-autosuggest'
 
 
 const IngredientAutoSuggest = ({ suggestions, getSuggestionValue, renderSuggestion, onSuggestionSelected, inputProps, onChange }) => (

@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-const Link = require('react-router').Link
+import { Link } from 'react-router'
 
 const DrinkListItem = ({ name, id }) => (
   <li>

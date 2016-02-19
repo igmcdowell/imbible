@@ -1,44 +1,19 @@
-const React = require('react')
-const PureRenderMixin = require('react-addons-pure-render-mixin')
-const Router = require('react-router')
-const RouteHandler = Router.RouteHandler
-const IndexLink = Router.IndexLink
-const ImbibleApp = React.createClass({
-  mixins: [PureRenderMixin]
+import React from 'react'
+import PureRenderMixin from 'react-addons-pure-render-mixin'
+import { IndexLink } from 'react-router'
 
-  , getInitialState() {
-    return null
-  }
-
-  , componentDidMount() {
-
-  }
-
-  , componentWillUnmount() {
-
-  }
-
-  , componentWillMount() {
-  }
-
-  , _onChange() {
-
-  }
-
-  , render() {
-    return (
-      <div>
-        <div>
-          <div className="topbar">
-            <h1><IndexLink to="/">Imbible</IndexLink></h1>
-          </div>
-          <div className="main-content">
-            {this.props.children}
-          </div>
-        </div>
+const ImbibleApp = ({children}) => (
+  <div>
+    <div>
+      <div className="topbar">
+        <h1><IndexLink to="/">Imbible</IndexLink></h1>
       </div>
-   )       
-  }
-})
+      <div className="main-content">
+        {children}
+      </div>
+    </div>
+  </div>
+)
 
-module.exports = ImbibleApp
+
+export default ImbibleApp
