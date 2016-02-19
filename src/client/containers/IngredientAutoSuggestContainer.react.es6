@@ -6,9 +6,10 @@ import { changeSuggestInput, addSuggestion } from '../actions.es6'
 function getSuggestions(allSuggestions, value) {
   const inputValue = value.trim().toLowerCase();
   const inputLength = inputValue.length;
-  return inputLength === 0 ? [] : allSuggestions.filter(lang =>
-    lang.name.toLowerCase().slice(0, inputLength) === inputValue
+  const arr = inputLength === 0 ? [] : allSuggestions.filter(ingredient =>
+    ingredient.name.toLowerCase().indexOf(value.toLowerCase()) !== -1
   )
+  return arr.slice(0,20)
 }
 
 function getSuggestionValue(suggestion) { 
