@@ -14,5 +14,5 @@ ReactDOM.render((
   <Provider store={store}>
     {router}
   </Provider>
-  ), document.body)
+  ), document.getElementById('react-content'))
 
