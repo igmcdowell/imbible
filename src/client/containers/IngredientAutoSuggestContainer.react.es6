@@ -50,8 +50,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    onChange: (event, { newValue }) => {
-      dispatch(changeSuggestInput(newValue))
+    onChange: (event, { newValue, method }) => {
+      if (['type', 'escape', 'click'].includes(method)) dispatch(changeSuggestInput(newValue))
     },
     onSuggestionSelected: (event, { suggestion, suggestionValue, method }) => {
       dispatch(addSuggestion(suggestion))
