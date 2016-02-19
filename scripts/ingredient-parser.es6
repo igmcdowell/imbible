@@ -53,7 +53,7 @@ const normalizeIngredientTypes = function(processedData) {
   const ingredientTypes = processedData.ingredientTypes
   const ingredientTypesArray = []
   Object.keys(ingredientTypes).forEach((key) => {
-    ingredientTypesArray.push({name: key, ingredients: ingredientTypes[key].ingredients})
+    ingredientTypesArray.push({name: key, ingredients: ingredientTypes[key].ingredients, id: ingredientTypes[key].id})
   })
   processedData.ingredientTypes = ingredientTypesArray
   delete processedData.ingredientTypeIndex

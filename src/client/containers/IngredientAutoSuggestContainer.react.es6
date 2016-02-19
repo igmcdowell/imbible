@@ -14,7 +14,7 @@ function makeSuggestionGetter(allSuggestions) {
 }
 
 function getSuggestionValue(suggestion) { 
-  return suggestion.name;                 
+  return suggestion.name;          
 }
 
 function renderSuggestion(suggestion) {
@@ -24,9 +24,7 @@ function renderSuggestion(suggestion) {
 }
 
 function makeOnSuggestionsUpdateRequested(suggestionGetter) {
-  console.log('made an update requester')
   return ({ value }) => {
-    console.log('and a request update fired')
     updateSuggestionRequested(suggestionGetter(value))
   }
 }
@@ -60,6 +58,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
       dispatch(updateSuggestionRequested(result)) 
       // want to fire an update with new set of suggestions
+    },
+    onSuggestionSelected: (event, { suggestion, suggestionValue, method }) => {
+
     }
   }
 }
