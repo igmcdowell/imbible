@@ -4,6 +4,7 @@
   "description": "The Ultimate Cocktail Manual",
   "main": "index.js",
   "dependencies": {
+    "babel-polyfill": "^6.5.0",
     "body-parser": "^1.14.2",
     "co": "^4.6.0",
     "compression": "^1.6.1",
