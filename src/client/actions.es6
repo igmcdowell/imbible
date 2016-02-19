@@ -2,9 +2,8 @@ export const ADD_DRINK = 'ADD_DRINK'
 export const ADD_DRINK_INGREDIENT = 'ADD_DRINK_INGREDIENT'
 export const ADD_INGREDIENT_TYPE = 'ADD_INGREDIENT_TYPE'
 export const ADD_INGREDIENT = 'ADD_INGREDIENT'
-export const SUGGESTIONS_UPDATE_REQUESTED = 'SUGGESTIONS_UPDATE_REQUESTED'
 export const INPUT_CHANGE = 'INPUT_CHANGE'
-export const SUGGESTION_SELECTED = 'SUGGESTION_SELECTED'
+export const SUGGESTION_ADDED = 'SUGGESTION_ADDED'
 
 export function addDrink(drink) {
   return { type: ADD_DRINK, drink }
@@ -26,10 +25,6 @@ export function changeSuggestInput(value) {
   return { type: INPUT_CHANGE, value }
 }
 
-export function updateSuggestionRequested(suggestions) {
-  return { type: SUGGESTIONS_UPDATE_REQUESTED, suggestions}
-}
-
-export function selectSuggestion(suggestion) {
-  return { type: SUGGESTION_SELECTED, suggestion}
+export function addSuggestion(suggestion) {
+  return { type: SUGGESTION_ADDED, suggestion }
 }

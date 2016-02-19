@@ -7,7 +7,7 @@ const HomePage = React.createClass({
   , render() {
     return (
       <div className="home">
-        <IngredientAutoSuggestContainer ingredients={this.context.store.getState().ingredientTypes.toArray()}></IngredientAutoSuggestContainer>
+        <IngredientAutoSuggestContainer></IngredientAutoSuggestContainer>
         <LoadedDrinkList></LoadedDrinkList>
       </div>
     )

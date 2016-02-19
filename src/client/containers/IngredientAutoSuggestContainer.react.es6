@@ -1,16 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import IngredientAutoSuggest from '../components/IngredientAutoSuggest.react.es6'
-import { changeSuggestInput, updateSuggestionRequested } from '../actions.es6'
+import { changeSuggestInput, addSuggestion } from '../actions.es6'
 
-function makeSuggestionGetter(allSuggestions) {
-  return (value) => {
-    const inputValue = value.trim().toLowerCase();
-    const inputLength = inputValue.length;
-    return inputLength === 0 ? [] : allSuggestions.filter(lang =>
-      lang.name.toLowerCase().slice(0, inputLength) === inputValue
-    )
-  }
+function getSuggestions(allSuggestions, value) {
+  const inputValue = value.trim().toLowerCase();
+  const inputLength = inputValue.length;
+  return inputLength === 0 ? [] : allSuggestions.filter(lang =>
+    lang.name.toLowerCase().slice(0, inputLength) === inputValue
+  )
 }
 
 function getSuggestionValue(suggestion) { 
@@ -31,8 +29,13 @@ function makeOnSuggestionsUpdateRequested(suggestionGetter) {
 
 const mapStateToProps = (state, ownProps) => {
   const value = state.autoSuggest.get('value')
-  const suggestions = state.autoSuggest.get('suggestions')
-  const suggestionGetter = makeSuggestionGetter(ownProps.ingredients)
+  const availableIngredients = state.ingredientTypes
+                                .toOrderedSet()
+                                .subtract(state.autoSuggest
+                                  .get('pickedSuggestions')
+                                )
+                                .toArray()
+  const suggestions = getSuggestions(availableIngredients, value)
   const inputProps = {
       value,
       placeholder: 'Type an ingredient',
@@ -42,8 +45,6 @@ const mapStateToProps = (state, ownProps) => {
     renderSuggestion, 
     inputProps,
     suggestions, 
-    // onSuggestionUpdateRequested: makeOnSuggestionsUpdateRequested(suggestionGetter), 
-    getSuggestions: suggestionGetter,
   }
 }
 
@@ -52,19 +53,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     onChange: (event, { newValue }) => {
       dispatch(changeSuggestInput(newValue))
     },
-    onSuggestionsUpdateRequested: ({value}) => {
-      const getter = makeSuggestionGetter(ownProps.ingredients)
-      const result = getter(value)
-
-      dispatch(updateSuggestionRequested(result)) 
-      // want to fire an update with new set of suggestions
-    },
     onSuggestionSelected: (event, { suggestion, suggestionValue, method }) => {
-
+      dispatch(addSuggestion(suggestion))
     }
   }
 }
-
 
 const IngredientAutoSuggestContainer = connect(
   mapStateToProps,
