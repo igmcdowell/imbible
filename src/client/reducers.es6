@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { ADD_DRINK, ADD_INGREDIENT, ADD_INGREDIENT_TYPE, ADD_DRINK_INGREDIENT, INPUT_CHANGE, SUGGESTION_ADDED } from './actions.es6'
+import { ADD_DRINK, ADD_INGREDIENT, ADD_INGREDIENT_TYPE, ADD_DRINK_INGREDIENT, INPUT_CHANGE, SUGGESTION_ADDED, SUGGESTION_REMOVED } from './actions.es6'
 import Immutable from 'immutable'
 
 function drinks(state = Immutable.OrderedMap(), action) {
@@ -44,6 +44,8 @@ function autoSuggest(state = Immutable.Map({value: '', suggestions: [], pickedSu
       return state.set('value', action.value)
     case SUGGESTION_ADDED:
       return state.set('pickedSuggestions', state.get('pickedSuggestions').concat(action.suggestion)).set('value', '')
+    case SUGGESTION_REMOVED:
+      return state.set('pickedSuggestions', state.get('pickedSuggestions').filter(ingr => ingr.id !== action.id))
     default:
       return state
   }

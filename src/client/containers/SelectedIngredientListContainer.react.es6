@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import IngredientList from '../components/SelectedIngredientList.react.es6'
+import { removeSuggestion } from '../actions.es6'
 
 const mapStateToProps = (state) => {
   return {
@@ -7,8 +8,17 @@ const mapStateToProps = (state) => {
   }
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    removeIngredient: (ingredient) => {
+      dispatch(removeSuggestion(ingredient))
+    }
+  }
+}
+
 const LoadedIngredientList = connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(IngredientList)
 
 export default LoadedIngredientList

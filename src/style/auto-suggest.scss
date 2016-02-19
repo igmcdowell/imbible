@@ -72,7 +72,14 @@
 
 .selected-ingredient {
     display: inline-block;
-    padding: 5px;
     border: 1px solid #777;
     margin-right: 5px;
+    padding-right: 10px;
+
+    .closer {
+      cursor: pointer;
+      padding: 5px 10px;
+      display: inline-block;
+      user-select: none;
+    }
 }
