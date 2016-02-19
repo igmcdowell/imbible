@@ -35,6 +35,7 @@ module.exports = {
   , revReplace: {
     manifestFile: './public/manifest.json'
     , indexPath: './views/'
+    , publicPath: './public/'
     , indexName: 'index.html'
     , watch: ['./public/js/**', './public/style/**', './views/index.html']
   }
