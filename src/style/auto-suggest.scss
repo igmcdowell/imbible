@@ -64,3 +64,15 @@
   padding: 0;
   list-style-type: none;
 }
+
+.selected-ingredients {
+  padding-left: 0;
+  margin-top: 5px;
+}
+
+.selected-ingredient {
+    display: inline-block;
+    padding: 5px;
+    border: 1px solid #777;
+    margin-right: 5px;
+}
