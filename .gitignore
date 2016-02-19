@@ -8,3 +8,6 @@ public/css/**
 public/lib/**
 public/manifest.json
 views/built/index.html
+scripts/imbibleData.json
+scripts/ingredients.tsv
+scripts/drinks.tsv
