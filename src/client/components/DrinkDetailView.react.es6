@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import DrinkIngredientList from './DrinkIngredientList.react.es6'
 
 const DrinkDetailView = ({ name, drinkIngredients }) => (
-  <div>
+  <div className="card">
     <h2>{name}</h2>
     <DrinkIngredientList
       drinkIngredients={drinkIngredients}

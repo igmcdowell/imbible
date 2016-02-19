@@ -3,7 +3,7 @@ import { Link } from 'react-router'
 
 const DrinkListItem = ({ name, id, source }) => (
   <li>
-    <Link to={`/drinks/${id}`}>{name}</Link> - {source}
+    <Link to={`/drinks/${id}`}>{name}</Link> <span className="source">{source}</span>
   </li>
 )
 

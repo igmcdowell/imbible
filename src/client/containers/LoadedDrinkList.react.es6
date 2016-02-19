@@ -13,7 +13,7 @@ const mapStateToProps = (state) => {
   console.log('sit', selectedIngredientTypes)
   const availableDrinks = state.drinks.filter(d => isSubset(selectedIngredientTypes, d.ingredientTypes))
   return {
-    drinks: availableDrinks.slice(0,30)
+    drinks: availableDrinks.slice(0,20)
   }
 }
 

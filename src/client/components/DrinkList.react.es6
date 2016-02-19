@@ -3,7 +3,7 @@ import DrinkListItem from './DrinkListItem.react.es6'
 
 
 const DrinkList = ({ drinks }) => (
-  <ul>
+  <ul className="card">
     {drinks.map(drink =>
       <DrinkListItem
         key={drink.id}

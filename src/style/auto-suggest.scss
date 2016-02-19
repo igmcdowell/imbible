@@ -72,14 +72,16 @@
 
 .selected-ingredient {
     display: inline-block;
-    border: 1px solid #777;
     margin-right: 5px;
     padding-right: 10px;
+    @include materialShadow(1); 
+    background: white;
 
     .closer {
       cursor: pointer;
       padding: 5px 10px;
       display: inline-block;
       user-select: none;
+      color: $accent-color;
     }
 }
