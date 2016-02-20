@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 import DrinkIngredientListItemContainer from '../containers/DrinkIngredientListItemContainer.react.es6'
 
 const DrinkIngredientList = ({ drinkIngredients }) => (
-  <ul>
+  <ul className="drink-ingredient-list">
     {drinkIngredients.map(drinkIngredient =>
       <DrinkIngredientListItemContainer
         key={drinkIngredient.id}

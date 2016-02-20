@@ -26,7 +26,6 @@ a {
 
 li {
   list-style: none;
-  padding-bottom: 5px;
 }
 
 ul {
@@ -55,6 +54,12 @@ div {
   li {
     border-bottom: 1px solid #ccc;
     padding: 10px 0;
+  }
+}
+
+.drink-ingredient-list {
+  li {
+    padding-bottom: 5px;
   }
 }
 
