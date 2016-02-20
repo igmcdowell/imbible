@@ -4659,7 +4659,6 @@ var DrinkIngredientListItem = function DrinkIngredientListItem(_ref) {
     'li',
     null,
     amount,
-    ' ',
     unit,
     ' ',
     name
@@ -4688,9 +4687,9 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _DrinkListItemReact = require('./DrinkListItem.react.es6');
+var _DrinkListItemContainerReact = require('../containers/DrinkListItemContainer.react.es6');
 
-var _DrinkListItemReact2 = _interopRequireDefault(_DrinkListItemReact);
+var _DrinkListItemContainerReact2 = _interopRequireDefault(_DrinkListItemContainerReact);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -4698,9 +4697,9 @@ var DrinkList = function DrinkList(_ref) {
   var drinks = _ref.drinks;
   return _react2.default.createElement(
     'ul',
-    { className: 'card' },
+    { className: 'card drink-list' },
     drinks.map(function (drink) {
-      return _react2.default.createElement(_DrinkListItemReact2.default, _extends({
+      return _react2.default.createElement(_DrinkListItemContainerReact2.default, _extends({
         key: drink.id
       }, drink));
     })
@@ -4713,7 +4712,7 @@ DrinkList.propTypes = {
 
 exports.default = DrinkList;
 
-},{"./DrinkListItem.react.es6":"/Users/iangm/Code/imbible/src/client/components/DrinkListItem.react.es6","react":"react"}],"/Users/iangm/Code/imbible/src/client/components/DrinkListItem.react.es6":[function(require,module,exports){
+},{"../containers/DrinkListItemContainer.react.es6":"/Users/iangm/Code/imbible/src/client/containers/DrinkListItemContainer.react.es6","react":"react"}],"/Users/iangm/Code/imbible/src/client/components/DrinkListItem.react.es6":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4732,6 +4731,7 @@ var DrinkListItem = function DrinkListItem(_ref) {
   var name = _ref.name;
   var id = _ref.id;
   var source = _ref.source;
+  var ingredients = _ref.ingredients;
   return _react2.default.createElement(
     'li',
     null,
@@ -4740,11 +4740,16 @@ var DrinkListItem = function DrinkListItem(_ref) {
       { to: '/drinks/' + id },
       name
     ),
-    ' ',
     _react2.default.createElement(
       'span',
       { className: 'source' },
       source
+    ),
+    _react2.default.createElement('br', null),
+    _react2.default.createElement(
+      'span',
+      { className: 'ingredients' },
+      ingredients.join(', ')
     )
   );
 };
@@ -4752,6 +4757,7 @@ var DrinkListItem = function DrinkListItem(_ref) {
 DrinkListItem.propTypes = {
   name: _react.PropTypes.string.isRequired,
   id: _react.PropTypes.number.isRequired,
+  ingredients: _react.PropTypes.array.isRequired,
   source: _react.PropTypes.string.isRequired
 };
 
@@ -5071,7 +5077,34 @@ var DrinkIngredientListItemContainer = (0, _reactRedux.connect)(mapStateToProps)
 
 exports.default = DrinkIngredientListItemContainer;
 
-},{"../components/DrinkIngredientListItem.react.es6":"/Users/iangm/Code/imbible/src/client/components/DrinkIngredientListItem.react.es6","react-redux":"react-redux"}],"/Users/iangm/Code/imbible/src/client/containers/IngredientAutoSuggestContainer.react.es6":[function(require,module,exports){
+},{"../components/DrinkIngredientListItem.react.es6":"/Users/iangm/Code/imbible/src/client/components/DrinkIngredientListItem.react.es6","react-redux":"react-redux"}],"/Users/iangm/Code/imbible/src/client/containers/DrinkListItemContainer.react.es6":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _reactRedux = require('react-redux');
+
+var _DrinkListItemReact = require('../components/DrinkListItem.react.es6');
+
+var _DrinkListItemReact2 = _interopRequireDefault(_DrinkListItemReact);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var mapStateToProps = function mapStateToProps(state, ownProps) {
+  var drink = Object.apply({}, ownProps);
+  drink.ingredients = ownProps.ingredientTypes.map(function (type) {
+    return state.ingredientTypes.get(type).name;
+  });
+  return drink;
+};
+
+var DrinkListItemContainer = (0, _reactRedux.connect)(mapStateToProps)(_DrinkListItemReact2.default);
+
+exports.default = DrinkListItemContainer;
+
+},{"../components/DrinkListItem.react.es6":"/Users/iangm/Code/imbible/src/client/components/DrinkListItem.react.es6","react-redux":"react-redux"}],"/Users/iangm/Code/imbible/src/client/containers/IngredientAutoSuggestContainer.react.es6":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

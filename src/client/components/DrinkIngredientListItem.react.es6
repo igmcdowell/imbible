@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react'
 
 const DrinkIngredientListItem = ({ name, amount, unit }) => (
   <li>
-    {amount} {unit} {name}
+    {amount}{unit} {name}
   </li>
 )
 

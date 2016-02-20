@@ -26,6 +26,7 @@ a {
 
 li {
   list-style: none;
+  padding-bottom: 5px;
 }
 
 ul {
@@ -48,8 +49,22 @@ div {
   @include materialShadow(2);
 }
 
+.drink-list {
+  padding: 0 10px;
+
+  li {
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0;
+  }
+}
+
 .source {
   color: $detail-text-color;
+  margin-left: 5px;
+}
+
+.source, .ingredients {
+  font-size: 80%;
 }
 
 @media (max-device-width: 568px) {

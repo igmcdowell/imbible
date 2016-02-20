@@ -1,11 +1,11 @@
 import React, { PropTypes } from 'react'
-import DrinkListItem from './DrinkListItem.react.es6'
+import DrinkListItemContainer from '../containers/DrinkListItemContainer.react.es6'
 
 
 const DrinkList = ({ drinks }) => (
-  <ul className="card">
+  <ul className="card drink-list">
     {drinks.map(drink =>
-      <DrinkListItem
+      <DrinkListItemContainer
         key={drink.id}
         {...drink}
       />
