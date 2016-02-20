@@ -4617,7 +4617,7 @@ var DrinkIngredientList = function DrinkIngredientList(_ref) {
   var drinkIngredients = _ref.drinkIngredients;
   return _react2.default.createElement(
     'ul',
-    null,
+    { className: 'drink-ingredient-list' },
     drinkIngredients.map(function (drinkIngredient) {
       return _react2.default.createElement(_DrinkIngredientListItemContainerReact2.default, _extends({
         key: drinkIngredient.id
