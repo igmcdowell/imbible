@@ -10,8 +10,7 @@ const isSubset = (candidate, arr) =>  {
 
 const mapStateToProps = (state) => {
   const selectedIngredientTypes = state.autoSuggest.get('pickedSuggestions').map(s => s.id)
-  console.log('sit', selectedIngredientTypes)
-  const availableDrinks = state.drinks.filter(d => isSubset(selectedIngredientTypes, d.ingredientTypes))
+  const availableDrinks = state.drinks.filter(d => isSubset(selectedIngredientTypes, d.ingredientTypes.concat(d.ingredientSuperTypes)))
   return {
     drinks: availableDrinks.slice(0,20)
   }

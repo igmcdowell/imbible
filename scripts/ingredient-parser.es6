@@ -50,26 +50,27 @@ const readDrinkInput = function({processedData}) {
 const processDrinkDataLine = function(drinkData, allDrinks, allDrinkIngredients, ingredientsByName) {
   let last = allDrinks[allDrinks.length - 1]
   if(!ingredientsByName[drinkData.ingredient]) {
-    console.log('could not find', ingredient)
+    console.log('could not find', drinkData.ingredient)
     return
   }
-  const {ingredientType, id: ingredientId} = ingredientsByName[drinkData.ingredient]
+  const {ingredientType, ingredientSuperType, id: ingredientId} = ingredientsByName[drinkData.ingredient]
 
   if (!last || last.canonicalName !== drinkData.canonicalName) {
-    allDrinks.push({id: allDrinks.length + 1, name: drinkData.name, canonicalName: drinkData.canonicalName, source: drinkData.source, drinkIngredients:[], ingredientTypes:[]})
+    allDrinks.push({id: allDrinks.length + 1, name: drinkData.name, canonicalName: drinkData.canonicalName, source: drinkData.source, drinkIngredients:[], ingredientTypes:[], ingredientSuperTypes:[]})
     last = allDrinks[allDrinks.length - 1]
   }
   
   const drinkIngredient = {
     ingredientId, 
     id: allDrinkIngredients.length + 1,
-    drinkId: last.id,
+    // drinkId: last.id,
     amount: 1,
-    unit: 'ounces',
+    unit: 'oz',
   }
   allDrinkIngredients.push(drinkIngredient)
   last.drinkIngredients.push(drinkIngredient.id)
   last.ingredientTypes.push(ingredientType)
+  if (ingredientSuperType) last.ingredientSuperTypes.push(ingredientSuperType)
 }
 
 
@@ -84,6 +85,7 @@ const parseIngredientLine = function(line, lineNumber) {
   return {
     name: data[0],
     type: data[1],
+    superType: data[2],
     id: lineNumber
   }
 }
@@ -102,14 +104,26 @@ const parseDrinkLine = function(line) {
 const processIngredientData = function(ingredientData, processedData = {ingredients: [], ingredientTypes: {}, ingredientTypeIndex: 1}) {
   const ingredientTypes = processedData.ingredientTypes
   if(!ingredientTypes[ingredientData.type]) {
-    ingredientTypes[ingredientData.type] = {id: processedData.ingredientTypeIndex, ingredients: []}
+    ingredientTypes[ingredientData.type] = {id: processedData.ingredientTypeIndex } //, ingredients: []
     processedData.ingredientTypeIndex++
-  } 
-  const ingredientTypeData = ingredientTypes[ingredientData.type]
-  ingredientTypeData.ingredients.push(ingredientData.id)
-  ingredientTypes[ingredientData.type] = ingredientTypeData
+  }
 
-  processedData.ingredients.push({id: ingredientData.id, name: ingredientData.name, ingredientType: ingredientTypeData.id})
+  const ingredient = {
+    id: ingredientData.id, 
+    name: ingredientData.name, 
+    ingredientType: ingredientTypes[ingredientData.type].id
+  }
+
+  if(ingredientData.superType) {
+    if (!ingredientTypes[ingredientData.superType]) {
+      ingredientTypes[ingredientData.superType] = {id: processedData.ingredientTypeIndex } //, ingredients: []
+      processedData.ingredientTypeIndex++
+    }
+
+    ingredient.ingredientSuperType = ingredientTypes[ingredientData.superType].id
+  } 
+
+  processedData.ingredients.push(ingredient)
   return processedData
 }
 
@@ -117,7 +131,10 @@ const normalizeIngredientTypes = function(processedData) {
   const ingredientTypes = processedData.ingredientTypes
   const ingredientTypesArray = []
   Object.keys(ingredientTypes).forEach((key) => {
-    ingredientTypesArray.push({name: key, ingredients: ingredientTypes[key].ingredients, id: ingredientTypes[key].id})
+    ingredientTypesArray.push({
+      name: key, 
+      id: ingredientTypes[key].id
+    })
   })
   processedData.ingredientTypes = ingredientTypesArray
   delete processedData.ingredientTypeIndex
