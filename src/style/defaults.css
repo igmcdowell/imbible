@@ -1,0 +1,92 @@
+@import './_constants.css';
+
+
+body {
+  background-color: var(--background-color);
+  font-family: Arial;
+  color: var(--text-color);
+}
+
+h1 {
+  text-transform: uppercase;
+  font-size: 50px;
+  margin: 5px;
+  text-align: center;
+}
+
+h1 a {
+  color: var(--accent-color);
+  text-shadow: 2px 2px var(--shadow-color);
+}
+
+h2 {
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  color: var(--primary-color);
+}
+
+li {
+  list-style: none;
+}
+
+ul {
+  padding-left: 0;
+  margin-top: 5px;
+}
+
+#root {
+  width: 400px;
+  margin: auto;
+}
+
+.card {
+  padding: 10px;
+  background-color: white;
+}
+
+.drink-list {
+  padding: 0 10px;
+}
+
+.drink-headline {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+  margin-right: 4px;
+}
+
+.drink-list li {
+  border-bottom: 1px solid #ccc;
+  padding: 10px 0;
+}
+
+.drink-ingredient-list li {
+  padding-bottom: 5px;
+}
+
+.source {
+  color: var(--detail-text-color);
+  margin-left: 5px;
+}
+
+.source, .ingredients {
+  font-size: 80%;
+}
+
+@media (max-device-width: 568px) {
+  h1 {
+    font-size: 100px;
+  }
+  body {
+    font-size: 2em;
+  }
+  #react-content {
+    width: 95%;
+  }
+}
+

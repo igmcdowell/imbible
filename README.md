@@ -1,80 +1,87 @@
-## Getting started
+# First time Setup
+## install node nvm and v14.5.1
+nvm: https://github.com/nvm-sh/nvm#installing-and-updating
 
-### Install Global Dependencies
-- Install node through nvm. See https://github.com/creationix/nvm
-- Install babel
-`npm install --global babel-cli`
-- Install gulp
-`npm install --global gulp`
-- install npm-shrinkwrap
-`npm install -g npm-shrinkwrap`
+```
+nvm install 14.5.1
+```
 
-### Install Project Dependencies
-`npm install`
+## install yarn
+https://classic.yarnpkg.com/en/docs/install#mac-stable
 
-### Start build process/server
-`gulp`
+## install dependencies
+```
+yarn install
+```
 
-### Server-side Debugging
-Node-inspector looks/works a lot like the chrome inspector, and makes it significantly easier to debug node.
+# Developing
+## Stand up a localhost server:
+```
+cd dev
+python -m SimpleHTTPServer 8000
+```
 
-- Make sure you have node-inspector installed
-`npm install -g node-inspector`
-- Start build process/server in debug mode
-`gulp --debug`
-- Start node-inspector (it should attach to the running node process)
-`node-debug`
+## Start the dev build with watch:
+```
+yarn dev --watch --progress
+```
 
-### Sublime Text Setup
-* Add Package Control by following `https://sublime.wbond.net/installation`
-* Add packages via Package Control `cmd + shift + p`
-    - SublimeGit 
-    - Fix Mac Path
-    - Babel
-    - SCSS
-* Optional Packages
-    - BracketHiglighter
-    - GitGutter
-    - GotoRowCol
+## Make changes/test
+Check your changes at localhost:8000. You will need to refresh after a rebuild (not hot reloading)
 
-* Add to sublime settings:
-    "tab_size": 2,
-    "translate_tabs_to_spaces": true
-* Optional sublime settings (prevent built stuff from showing up in your search):
-  "binary_file_patterns":
-    [
-      "node_modules/*",
-      "public/js/bundle*",
-      "public/js/common*",
-      "public/style/addons*",
-      "public/style/app*"
-    ]
+No test suite here, so try not to break things. If you really want to you can add a jest suite or something.
 
-### Dev Environment Additions
-#### Git hooks
-- Add a pre-commit hook for `shrinkwrap`
-    - `touch .git/hooks/pre-commit`
-    - `chmod +x !$`
-    - Add this to the newly created file
-        ```
-        #!/bin/sh
+# Building for distribution
+```
+yarn build
+```
 
-        if ( git diff --cached --name-status | grep -q '[[:blank:]]package.json' ) && ! ( git diff --cached --name-status | grep -q npm-shrinkwrap.json ); then
-            echo "Running shrinkwrap and adding new npm-shrinkwrap.json to staged files"
-            npm shrinkwrap --dev
-            git add ./npm-shrinkwrap.json
-        fi
-        ```
+# Updating drinks
+This part is obnoxious. 
+## Overview
+The drinks are defined in scripts/drinks.tsv. The format is:
+```
+Source Book Prefix + Drink Name | Drink Name | Source Book Full Name | Ingredient Name | quantity | unit
+```
+Notes: 
+- We use TSV format because it's driven by a Google sheet. At some point would be nice to stuff this in a database and skip the whole parsing nonsense, but this is the army we have.
+- The name is duplicated so different recipes with the same name each get their own entry. 
+- Quantity and unit are currently not consumed by the script, since the data is all missing.
+- There's one complete line per ingredient.
 
-## Helpful development stuff
+There is a separate sheet that must be kept in sync - ingredients.tsv. 
+ingredients.tsv allows relating a very specific ingredient to more general categories. The format is: 
 
-- Ignore node_modules and bundles in sublime text search
-`Sublime Text -> Preferences -> Settings - User`
-`"binary_file_patterns":
- [
-   "node_modules/*",
-   "public/js/bundle.js",
-   "public/lib/common.js"
- ],`
-- Install react developer tools for chrome
-`https://github.com/facebook/react-devtools`
+```
+Ingredient Name | Ingredient Type | Ingredient Super Type
+```
+
+e.g. 
+```
+Beefeater London Dry Gin  Gin
+```
+
+Ingredient Type is required. The super type is optional.
+
+## Adding drinks
+Make your changes in the source google sheet, then export the TSV data and overwrite drinks.tsv
+If your drink uses a new ingredient, you must add a row to ingredients.tsv.
+
+Once the source data is updated, you need to generate data
+
+```
+yarn generate-data
+```
+
+## Updating data generation logic
+Make all changes to scripts/ingredient-parser.ts. Don't touch ingredient-parser.js, that's generated code.
+
+Once you make a change to the data generation script, you need to recompile it
+```
+yarn compile-data-script
+```
+
+You will probably then also want to regenerate data
+```
+yarn generate-data
+```
