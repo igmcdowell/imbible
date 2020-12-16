@@ -1,74 +1,80 @@
 import * as React from 'react'
 import * as Autosuggest from 'react-autosuggest'
 import {SelectedIngredientList} from '../components/SelectedIngredientList'
-import { GetSuggestionValue, RenderSuggestion, OnSuggestionSelected, ChangeEvent, InputProps, SuggestionSelectedEventData } from 'react-autosuggest'
-import { connect } from 'react-redux'
+import {ChangeEvent,SuggestionSelectedEventData } from 'react-autosuggest'
+import {useDispatch, useSelector } from 'react-redux'
 import { changeSuggestInput, addSuggestion } from '../actions'
-import { FullState, IngredientOrType } from '../../../types/ingredients';
-import { Dispatch } from 'redux';
+import { FullState, IDrink, IngredientOrType } from '../../../types/ingredients';
+import { useHistory } from 'react-router-dom'
 
+type ImbibleAutoSuggestion = IngredientOrType | IDrink;
+export const IngredientAutoSuggest = () => {
+  const {inputProps, suggestions} = useSelector(extractProps);
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const onChange = (event: React.FormEvent<any>, { newValue, method }: ChangeEvent) => {
+    if (['type', 'escape', 'click'].includes(method)) dispatch(changeSuggestInput(newValue))
+  };
+  const onSuggestionSelected = (event: React.FormEvent<any>, { suggestion, sectionIndex }: SuggestionSelectedEventData<ImbibleAutoSuggestion>) => {
+    if (sectionIndex === 0) {
+      // Feels kind of hacky - assumes ingredients always are first in list.
+      dispatch(addSuggestion(suggestion))
+    } else {
+      // Note: this circumvents dispatch, but we're not keeping location in the redux store, so c'est la vie.
+      // Probably would be better to move away from react-router and get all this in redux.
+      history.push(`/drinks/${suggestion.id}`)
+    }
+  };
 
-type AutoSuggestProps = {
-  getSuggestionValue: GetSuggestionValue<IngredientOrType>;
-  suggestions: IngredientOrType[];
-  renderSuggestion: RenderSuggestion<IngredientOrType>;
-  onSuggestionSelected: OnSuggestionSelected<IngredientOrType>;
-  // We build our onChange from dispatch and the rest of inputprops from state. 
-  inputProps: Omit<InputProps<IngredientOrType>, "onChange">; 
-  onChange(event: React.FormEvent<any>, params: ChangeEvent): void;
-}
-
-const UnconnectedIngredientAutoSuggest = ({ onChange, suggestions, getSuggestionValue, renderSuggestion, onSuggestionSelected, inputProps }: AutoSuggestProps) => (
-  <>
-    <Autosuggest<IngredientOrType> 
+  return <>
+    <Autosuggest<ImbibleAutoSuggestion> 
       suggestions={suggestions}
-      getSuggestionValue={getSuggestionValue}
-      renderSuggestion={renderSuggestion}
+      getSuggestionValue={(suggestion: ImbibleAutoSuggestion) => suggestion.name}
+      getSectionSuggestions={(section) => section.items}
+      renderSectionTitle={(section => section.title)}
+      renderSuggestion={(suggestion: ImbibleAutoSuggestion) => <span>{suggestion.name}</span>}
       // TODO: Seems like this is the preferred way of signaling a state, and we're running around it
       onSuggestionsFetchRequested={() => null}
       onSuggestionSelected={onSuggestionSelected}
       // TODO: this should be implemented
       onSuggestionsClearRequested={() => null}
       inputProps={{...inputProps, onChange}} 
+      multiSection
     />
     <SelectedIngredientList />
   </> 
-)
-
-function getSuggestions(allSuggestions: IngredientOrType[], value: string) {
-  const inputValue = value.trim().toLowerCase();
-  const arr = inputValue.length === 0 ? [] : allSuggestions.filter(ingredient => {
-    const idx = ingredient.name.toLowerCase().indexOf(value.toLowerCase());
-    return idx !== -1 && (idx === 0 || ingredient.name[idx - 1] === ' ')
-  })
-  return arr.slice(0,20)
 }
 
-const mapStateToProps = ({autoSuggest: {value, pickedSuggestions}, drinks}: FullState) => {
+function findMatches(inputValue: string, suggestions: ImbibleAutoSuggestion[]) {
+  return inputValue.length === 0 ? [] : suggestions.filter(suggestion => {
+    const idx = suggestion.name.toLowerCase().indexOf(inputValue.toLowerCase());
+    return idx !== -1 && (idx === 0 || suggestion.name[idx - 1] === ' ')
+  })
+}
+
+function getSuggestions(allSuggestions: IngredientOrType[], drinks: IDrink[], value: string) {
+  const inputValue = value.trim().toLowerCase();
+  // Important: If you re-order the results (e.g. drinks before ingredients) you need to change onSuggestionSelected to reflect the new indices
+  return [
+    {
+      title: "Ingredients",
+      items: findMatches(inputValue, allSuggestions).slice(0,5)
+    },
+    {
+      title: "Drinks",
+      items: findMatches(inputValue, drinks).slice(0,5)
+    }
+  ]
+}
+
+const extractProps = ({autoSuggest: {value, pickedSuggestions}, drinks}: FullState) => {
   const availableIngredients = drinks.ingredientTypes.filter(ing => pickedSuggestions.indexOf(ing) === -1)
+  const suggestions = getSuggestions(availableIngredients, drinks.drinks, value);
   return {
-    getSuggestionValue: (suggestion: IngredientOrType) => suggestion.name,
-    renderSuggestion: (suggestion: IngredientOrType) => <span>{suggestion.name}</span>, 
     inputProps:  {
       value,
       placeholder: 'Type an ingredient',
     },
-    suggestions: getSuggestions(availableIngredients, value), 
+    suggestions
   }
 }
-
-const mapDispatchToProps = (dispatch: Dispatch) => {
-  return {
-    onChange: (event: React.FormEvent<any>, { newValue, method }: ChangeEvent) => {
-      if (['type', 'escape', 'click'].includes(method)) dispatch(changeSuggestInput(newValue))
-    },
-    onSuggestionSelected: (event: React.FormEvent<any>, { suggestion, suggestionValue, method }: SuggestionSelectedEventData<IngredientOrType>) => {
-      dispatch(addSuggestion(suggestion))
-    }
-  }
-}
-
-export const IngredientAutoSuggest = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UnconnectedIngredientAutoSuggest)

@@ -16,7 +16,8 @@ const UnconnectedDrinkDetailView = ({name, drinkIngredients}: {name:string, drin
 )
 
 const mapStateToProps = (state: FullState, ownProps: {match: {params: {id: string}}}) => {
-  const drink = state.drinks.drinks[parseInt(ownProps.match.params.id, 10)];
+  const drinkId = parseInt(ownProps.match.params.id, 10);
+  const drink = state.drinks.drinks.find((drink) => drink.id === drinkId);
   return {...drink}
 }
 
