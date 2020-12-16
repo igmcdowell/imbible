@@ -1,10 +1,11 @@
 import * as React from 'react';
-import {IDrink, FullState } from '../../../types/ingredients'
-import { connect } from 'react-redux';
+import { FullState } from '../../../types/ingredients'
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-const UnfilteredDrinkList = ({ drinks }: {drinks: IDrink[]}) => (
-  <ul className="card drink-list">
+export const DrinkList = () => {
+  const drinks = useSelector(getDrinks);
+  return <ul className="card drink-list">
     {drinks.map(({id, name, source, drinkIngredients}) =>
       <li>
         <div className="drink-headline">
@@ -17,7 +18,7 @@ const UnfilteredDrinkList = ({ drinks }: {drinks: IDrink[]}) => (
       </li>
     )}
   </ul>
-)
+}
 
 const isSubset = (candidate: number[], arr: number[]) =>  {
   const len = candidate.length
@@ -27,14 +28,9 @@ const isSubset = (candidate: number[], arr: number[]) =>  {
   return true
 }
 
-const mapStateToProps = ({autoSuggest, drinks}: FullState) => {
+const getDrinks = ({autoSuggest, drinks}: FullState) => {
   const selectedIngredientTypes = autoSuggest.pickedSuggestions.map(s => s.id)
-  const availableDrinks = drinks.drinks.filter(d => isSubset(selectedIngredientTypes, d.ingredientTypes.concat(d.ingredientSuperTypes)))
-  return {
-    drinks: availableDrinks.slice(0,20)
-  }
+  return drinks.drinks
+    .filter(d => isSubset(selectedIngredientTypes, d.ingredientTypes.concat(d.ingredientSuperTypes)))
+    .slice(0, 20)
 }
-
-export const DrinkList = connect(
-  mapStateToProps
-)(UnfilteredDrinkList)

@@ -1,43 +1,21 @@
 import * as React from 'react'
 import { IIngredient, FullState } from '../../../types/ingredients'
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { removeSuggestion } from '../actions';
-import { Dispatch } from 'redux';
 
-type SelectedIngredeintProps = {
-  ingredients: IIngredient[];
-  removeIngredient: (id: number) => void;
-}
+export const SelectedIngredientList = () => {
+  const ingredients = useSelector((state: FullState) => state.autoSuggest.pickedSuggestions);
+  const dispatch = useDispatch();
+  const removeIngredient = (ingredientId: number) => dispatch(removeSuggestion(ingredientId))
 
-const UnconnectedSelectedIngredientList = ({ingredients, removeIngredient}: SelectedIngredeintProps) => (
-  <ul className="selected-ingredients">
+  return <ul className="selected-ingredients">
     {ingredients.map(({id: ingredientId, name}: IIngredient) =>
       <li className="selected-ingredient" key={ingredientId}>
         <span className="closer"
-              onClick={removeIngredient.bind(this, ingredientId)}
+          onClick={() => removeIngredient(ingredientId)}
         >X</span> 
         {name}
       </li>
     )}
   </ul>
-);
-
-
-const mapStateToProps = (state: FullState) => {
-  return {
-    ingredients: state.autoSuggest.pickedSuggestions
-  }
-}
-
-const mapDispatchToProps = (dispatch: Dispatch) => {
-  return {
-    removeIngredient: (ingredientId: number) => {
-      dispatch(removeSuggestion(ingredientId))
-    }
-  }
-}
-
-export const SelectedIngredientList = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UnconnectedSelectedIngredientList)
+};
