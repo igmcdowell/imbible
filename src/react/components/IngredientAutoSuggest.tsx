@@ -62,6 +62,8 @@ function findMatches(inputValue: string, suggestions: ImbibleAutoSuggestion[]) {
 function getSuggestions(allSuggestions: IngredientOrType[], drinks: IDrink[], value: string) {
   const inputValue = value.trim().toLowerCase();
   // Important: If you re-order the results (e.g. drinks before ingredients) you need to change onSuggestionSelected to reflect the new indices
+  // This also means no hiding empty sections. Getting around this will require adding a field to the suggestion
+  // to disambiguate the type, so we can introspect directly/not rely on index.
   return [
     {
       title: 'Ingredients',
@@ -80,7 +82,7 @@ const extractProps = ({autoSuggest: {value, pickedSuggestions}, drinks}: FullSta
   return {
     inputProps: {
       value,
-      placeholder: 'Type an ingredient',
+      placeholder: 'Search by ingredient or drink',
     },
     suggestions,
   };

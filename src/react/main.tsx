@@ -8,7 +8,6 @@ import drinksApp from './reducers';
 import {initialData} from './drinkData';
 import {router} from './components/ImbibleRouter';
 
-import './components/auto_suggest.css';
 import '../style/app.css';
 const store = createStore(drinksApp, {drinks: initialData});
 ReactDOM.render(<Provider store={store}>{router}</Provider>, document.getElementById('root'));
