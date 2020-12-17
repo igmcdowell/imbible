@@ -8,7 +8,7 @@ export const DrinkList = () => {
   return (
     <ul className="card drink-list">
       {drinks.map(({id, name, source, drinkIngredients}) => (
-        <li>
+        <li key={id}>
           <div className="drink-headline">
             <Link to={`/drinks/${id}`}>{name}</Link>
             <span className="source">{source}</span>
