@@ -88,17 +88,16 @@ x.react-autosuggest__container {
 }
 
 @media (max-device-width: 800px) {
- .react-autosuggest__suggestions-container, .react-autosuggest__input {
-   font-size: 50px;
- }
+  .react-autosuggest__suggestions-container,
+  .react-autosuggest__input {
+    font-size: 50px;
+  }
 
- .react-autosuggest__suggestions-container {
-   top: 71px;
- }
+  .react-autosuggest__suggestions-container {
+    top: 71px;
+  }
 
- .react-autosuggest__input {
-   height: 70px;
- }
-
+  .react-autosuggest__input {
+    height: 70px;
+  }
 }
-
