@@ -14,21 +14,7 @@ module.exports = {
       {
         test: /\.css$/,
         // include: path.resolve(__dirname, 'src'),
-        use: [
-          'style-loader',
-          'css-loader',
-          // {
-          //   loader: 'typings-for-css-modules-loader',
-          //   options: {
-          //     importLoaders: 1,
-          //     module: true,
-          //     localIdentName: '[local]--[hash:base64:5]',
-          //     namedExport: true,
-          //     camelCase: true,
-          //     sourceMap: true,
-          //   },
-          // }
-        ],
+        use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.tsx?$/,
@@ -48,9 +34,8 @@ module.exports = {
             },
           },
         ],
-        exclude: /node_modules/,
+        exclude: [/node_modules/, /dev/, /docs/],
       },
-
     ],
   },
   plugins: [new ForkTsCheckerWebpackPlugin()],
@@ -63,5 +48,5 @@ module.exports = {
     library: 'imbible',
     libraryTarget: 'umd',
   },
-}
+};
 // });
