@@ -7,7 +7,12 @@ import {changeSuggestInput, addSuggestion} from '../actions';
 import {FullState, IDrink, IngredientOrType} from '../../../types/ingredients';
 import {useHistory} from 'react-router-dom';
 
-type ImbibleAutoSuggestion = IngredientOrType | IDrink;
+enum SuggestionType {
+  Ingredient,
+  Drink,
+}
+
+type ImbibleAutoSuggestion = (IngredientOrType | IDrink) & {type: SuggestionType};
 export const IngredientAutoSuggest = () => {
   const {inputProps, suggestions} = useSelector(extractProps);
   const dispatch = useDispatch();
@@ -17,10 +22,9 @@ export const IngredientAutoSuggest = () => {
   };
   const onSuggestionSelected = (
     event: React.FormEvent<any>,
-    {suggestion, sectionIndex}: SuggestionSelectedEventData<ImbibleAutoSuggestion>
+    {suggestion}: SuggestionSelectedEventData<ImbibleAutoSuggestion>
   ) => {
-    if (sectionIndex === 0) {
-      // Feels kind of hacky - assumes ingredients always are first in list.
+    if (suggestion.type === SuggestionType.Ingredient) {
       dispatch(addSuggestion(suggestion));
     } else {
       // Note: this circumvents dispatch, but we're not keeping location in the redux store, so c'est la vie.
@@ -50,30 +54,29 @@ export const IngredientAutoSuggest = () => {
   );
 };
 
-function findMatches(inputValue: string, suggestions: ImbibleAutoSuggestion[]) {
+function findMatches(inputValue: string, suggestions: IngredientOrType[], type: SuggestionType) {
   return inputValue.length === 0
     ? []
-    : suggestions.filter(suggestion => {
-        const idx = suggestion.name.toLowerCase().indexOf(inputValue.toLowerCase());
-        return idx !== -1 && (idx === 0 || suggestion.name[idx - 1] === ' ');
-      });
+    : suggestions
+        .filter(suggestion => {
+          const idx = suggestion.name.toLowerCase().indexOf(inputValue.toLowerCase());
+          return idx !== -1 && (idx === 0 || suggestion.name[idx - 1] === ' ');
+        })
+        .map(suggestion => ({...suggestion, type}));
 }
 
 function getSuggestions(allSuggestions: IngredientOrType[], drinks: IDrink[], value: string) {
   const inputValue = value.trim().toLowerCase();
-  // Important: If you re-order the results (e.g. drinks before ingredients) you need to change onSuggestionSelected to reflect the new indices
-  // This also means no hiding empty sections. Getting around this will require adding a field to the suggestion
-  // to disambiguate the type, so we can introspect directly/not rely on index.
   return [
     {
       title: 'Ingredients',
-      items: findMatches(inputValue, allSuggestions).slice(0, 5),
+      items: findMatches(inputValue, allSuggestions, SuggestionType.Ingredient).slice(0, 5),
     },
     {
       title: 'Drinks',
-      items: findMatches(inputValue, drinks).slice(0, 5),
+      items: findMatches(inputValue, drinks, SuggestionType.Drink).slice(0, 5),
     },
-  ];
+  ].filter(section => section.items.length);
 }
 
 const extractProps = ({autoSuggest: {value, pickedSuggestions}, drinks}: FullState) => {

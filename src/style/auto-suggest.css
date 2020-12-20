@@ -17,6 +17,10 @@
   color: var(--control-text);
 }
 
+.react-autosuggest__input::placeholder {
+  color: var(--gray-700);
+}
+
 .react-autosuggest__container--open .react-autosuggest__input {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
