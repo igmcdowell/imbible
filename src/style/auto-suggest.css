@@ -1,5 +1,6 @@
 .react-autosuggest__container {
   position: relative;
+  color: var(--control-text);
 }
 
 .react-autosuggest__input {
@@ -10,9 +11,15 @@
   font-family: 'Open Sans', sans-serif;
   font-weight: 300;
   font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 0;
-  border-top: 0;
+  border-radius: 4px;
+  background-color: var(--control-background);
+  border: none;
+  color: var(--control-text);
+}
+
+.react-autosuggest__container--open .react-autosuggest__input {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .react-autosuggest__input:focus {
@@ -27,14 +34,15 @@
   margin: 0;
   padding: 0;
   list-style-type: none;
-  background-color: #fff;
+  background-color: var(--control-background);
   font-family: 'Open Sans', sans-serif;
   font-weight: 300;
   font-size: 16px;
   z-index: 2;
+  border-radius: 0 0 4px 4px;
 }
 .react-autosuggest__suggestions-container--open {
-  border: 1px solid #ccc;
+  /* border: 1px solid #ccc; */
   border-top: 0;
 }
 
@@ -50,7 +58,7 @@
 .react-autosuggest__section-title {
   padding: 10px 0 0 10px;
   font-size: 12px;
-  color: #777;
+  color: var(--control-text);
   border-top: 1px dashed #ccc;
 }
 
@@ -66,22 +74,25 @@
 
 .selected-ingredients {
   padding-left: 0;
-  margin-top: 5px;
+  margin-top: 10px;
 }
 
 .selected-ingredient {
   display: inline-block;
   margin-right: 5px;
   padding-right: 10px;
-  background: white;
+  background: var(--control-background);
+  color: var(--control-text);
+  border-radius: 4px;
+  padding: 5px 10px;
 }
 
 .selected-ingredient .closer {
   cursor: pointer;
-  padding: 5px 10px;
+  margin-right: 5px;
   display: inline-block;
   user-select: none;
-  color: #ff6d00;
+  color: #ff7e33;
 }
 
 @media (max-device-width: 800px) {
