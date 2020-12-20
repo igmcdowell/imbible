@@ -16,8 +16,10 @@ export const DrinkDetailView = ({match}: {match: match<{id: string}>}) => {
       <ul className="drink-ingredient-list">
         {drinkIngredients.map(({name: ingredientName, ingredientId, amount, unit}) => (
           <li key={ingredientId}>
-            {amount}
-            {unit} {ingredientName}
+            <span className="drink-ingredient__amount">
+              {amount} {unit}
+            </span>{' '}
+            <span className="drink-ingredient__name">{ingredientName}</span>
           </li>
         ))}
       </ul>
