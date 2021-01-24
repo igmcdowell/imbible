@@ -11,6 +11,7 @@ export const DrinkList = () => {
   return (
     <>
       <ul className="card drink-list">
+        <Pagination />
         {drinks.map(({id, name, source, drinkIngredients}) => (
           <li key={id}>
             <div className="drink-headline">
@@ -21,7 +22,6 @@ export const DrinkList = () => {
           </li>
         ))}
       </ul>
-      <Pagination />
     </>
   );
 };
@@ -51,26 +51,26 @@ const getDrinks = (state: FullState) => {
 
 // TODO: factor out shared selector and move to other file.
 const Pagination = () => {
-  const {hasMore, pageNum} = useSelector(getPaginationData);
+  const {hasMore, maxPage, pageNum} = useSelector(getPaginationData);
   const dispatch = useDispatch();
   if (pageNum === 0 && !hasMore) {
     // If there's nothing more to show and we're on the first page, no need for pagination.
     return null;
   }
-  if (hasMore) {
-  }
   return (
-    <div>
-      {pageNum > 0 ? <span onClick={() => dispatch(changePage(pageNum - 1))}>prev </span> : null}
-      Page {pageNum + 1}
-      {hasMore ? <span onClick={() => dispatch(changePage(pageNum + 1))}> next</span> : null}
+    <div className="pagination">
+      <div>{pageNum > 0 ? <span onClick={() => dispatch(changePage(pageNum - 1))}>Prev </span> : null}</div>
+      <div>
+        {pageNum + 1} of {maxPage + 1}
+      </div>
+      <div>{hasMore ? <span onClick={() => dispatch(changePage(pageNum + 1))}> Next</span> : null}</div>
     </div>
   );
 };
 
 const getPaginationData = (state: FullState) => {
   const {drinks, pageNum} = getDisplayDrinkData(state);
-  const maxPage = Math.floor(drinks.length / DRINKS_PER_PAGE);
+  const maxPage = Math.ceil(drinks.length / DRINKS_PER_PAGE) - 1;
   const hasMore = maxPage > pageNum;
-  return {hasMore, pageNum};
+  return {hasMore, maxPage, pageNum};
 };

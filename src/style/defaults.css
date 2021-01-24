@@ -117,6 +117,20 @@ ul {
   font-size: 0.8rem;
 }
 
+.pagination {
+  display: flex;
+  cursor: pointer;
+  justify-content: center;
+  padding-bottom: 5px;
+  border-bottom: 1px solid;
+  user-select: none;
+}
+
+.pagination div {
+  min-width: 4em;
+  text-align: center;
+}
+
 @media (max-device-width: 800px) {
   #root {
     width: 95%;

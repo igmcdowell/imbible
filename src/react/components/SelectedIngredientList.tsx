@@ -12,10 +12,10 @@ export const SelectedIngredientList = () => {
     <ul className="selected-ingredients">
       {ingredients.map(({id: ingredientId, name}: IIngredient) => (
         <li className="selected-ingredient" key={ingredientId}>
-          <span className="closer" onClick={() => removeIngredient(ingredientId)}>
-            X
-          </span>
           {name}
+          <span className="closer" onClick={() => removeIngredient(ingredientId)}>
+            x
+          </span>
         </li>
       ))}
     </ul>

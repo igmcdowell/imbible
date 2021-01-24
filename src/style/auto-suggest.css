@@ -93,8 +93,11 @@
 
 .selected-ingredient .closer {
   cursor: pointer;
-  margin-right: 5px;
   display: inline-block;
   user-select: none;
-  color: #ff7e33;
+  color: var(--gray-500);
+  border-left: 1px solid var(--gray-500);
+  border-left: 1px solid;
+  margin-left: 5px;
+  padding-left: 5px;
 }
